@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swiss Map</title>
+    <style>
+        #map-container {
+            position: relative;
+            width: 800px;
+            margin: 0 auto;
+        }
+
+        #map {
+            width: 100%;
+            height: auto;
+        }
+
+        .droplet, .city-label {
+            display: none;
+            position: absolute;
+        }
+
+        .droplet::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 20px;
+            height: 20px;
+            background: rgba(0, 123, 255, 0.6);
+            border-radius: 50%;
+            animation: drop 1.5s forwards;
+        }
+
+        .city-label {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 2px 5px;
+            border-radius: 3px;
+            opacity: 0;
+            transition: opacity 1s;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .show .city-label {
+            opacity: 1;
+        }
+
+        @keyframes drop {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="map-container">
+        <img id="map" src="country.svg" alt="Switzerland Map">
+
+        <div class="droplet" data-city="zurich" style="top: 130px; left: 455px;"></div>
+        <div class="city-label" data-city="zurich" style="top: 120px; left: 475px;">Zurich</div>
+
+        <div class="droplet" data-city="geneva" style="top: 400px; left: 65px;"></div>
+        <div class="city-label" data-city="geneva" style="top: 390px; left: 85px;">Geneva</div>
+
+        <div class="droplet" data-city="basel" style="top: 90px; left: 300px;"></div>
+        <div class="city-label" data-city="basel" style="top: 80px; left: 320px;">Basel</div>
+
+        <div class="droplet" data-city="bern" style="top: 230px; left: 275px;"></div>
+        <div class="city-label" data-city="bern" style="top: 220px; left: 295px;">Bern</div>
+
+        <div class="droplet" data-city="lucerne" style="top: 200px; left: 415px;"></div>
+        <div class="city-label" data-city="lucerne" style="top: 190px; left: 435px;">Lucerne</div>
+
+        <div class="droplet" data-city="chur" style="top: 255px; left: 610px;"></div>
+        <div class="city-label" data-city="chur" style="top: 245px; left: 630px;">Chur</div>
+
+        <div class="droplet" data-city="locarno" style="top: 405px; left: 495px;"></div>
+        <div class="city-label" data-city="locarno" style="top: 395px; left: 515px;">Locarno</div>
+
+        <div class="droplet" data-city="sion" style="top: 395px; left: 260px;"></div>
+        <div class="city-label" data-city="sion" style="top: 385px; left: 280px;">Sion</div>
+    </div>
+
+    <button onclick="showDroplet('zurich')">Show Zurich</button>
+    <button onclick="showDroplet('geneva')">Show Geneva</button>
+    <button onclick="showDroplet('basel')">Show Basel</button>
+    <button onclick="showDroplet('bern')">Show Bern</button>
+    <button onclick="showDroplet('lucerne')">Show Lucerne</button>
+    <button onclick="showDroplet('chur')">Show Chur</button>
+    <button onclick="showDroplet('locarno')">Show Locarno</button>
+    <button onclick="showDroplet('sion')">Show Sion</button>
+
+    <script>
+        function showDroplet(city) {
+            const allDroplets = document.querySelectorAll('.droplet');
+            const allLabels = document.querySelectorAll('.city-label');
+            allDroplets.forEach(droplet => {
+                droplet.style.display = 'none';
+                droplet.classList.remove('show');
+            });
+            allLabels.forEach(label => {
+                label.style.display = 'none';
+                label.classList.remove('show');
+            });
+
+            const droplet = document.querySelector(`.droplet[data-city="${city}"]`);
+            const label = document.querySelector(`.city-label[data-city="${city}"]`);
+            if (droplet && label) {
+                droplet.style.display = 'block';
+                droplet.classList.add('show');
+                label.style.display = 'block';
+                label.style.opacity = '1';
+
+                setTimeout(() => {
+                    droplet.style.display = 'none';
+                    label.style.opacity = '0';
+                }, 1500);
+            }
+        }
+    </script>
+</body>
+</html>
