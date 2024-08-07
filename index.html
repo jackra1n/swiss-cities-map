@@ -4,61 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Swiss Map</title>
-    <style>
-        #map-container {
-            position: relative;
-            width: 800px;
-            margin: 0 auto;
-        }
-
-        #map {
-            width: 100%;
-            height: auto;
-        }
-
-        .droplet, .city-label {
-            display: none;
-            position: absolute;
-        }
-
-        .droplet::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            width: 20px;
-            height: 20px;
-            background: rgba(0, 123, 255, 0.6);
-            border-radius: 50%;
-            animation: drop 1.5s forwards;
-        }
-
-        .city-label {
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 2px 5px;
-            border-radius: 3px;
-            opacity: 0;
-            transition: opacity 1s;
-            pointer-events: none;
-            white-space: nowrap;
-        }
-
-        .show .city-label {
-            opacity: 1;
-        }
-
-        @keyframes drop {
-            0% {
-                transform: scale(0.5);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(2);
-                opacity: 0;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <script src="main.js" defer></script>
 </head>
 <body>
     <div id="map-container">
@@ -89,42 +36,47 @@
         <div class="city-label" data-city="sion" style="top: 385px; left: 280px;">Sion</div>
     </div>
 
-    <button onclick="showDroplet('zurich')">Show Zurich</button>
-    <button onclick="showDroplet('geneva')">Show Geneva</button>
-    <button onclick="showDroplet('basel')">Show Basel</button>
-    <button onclick="showDroplet('bern')">Show Bern</button>
-    <button onclick="showDroplet('lucerne')">Show Lucerne</button>
-    <button onclick="showDroplet('chur')">Show Chur</button>
-    <button onclick="showDroplet('locarno')">Show Locarno</button>
-    <button onclick="showDroplet('sion')">Show Sion</button>
-
-    <script>
-        function showDroplet(city) {
-            const allDroplets = document.querySelectorAll('.droplet');
-            const allLabels = document.querySelectorAll('.city-label');
-            allDroplets.forEach(droplet => {
-                droplet.style.display = 'none';
-                droplet.classList.remove('show');
-            });
-            allLabels.forEach(label => {
-                label.style.display = 'none';
-                label.classList.remove('show');
-            });
-
-            const droplet = document.querySelector(`.droplet[data-city="${city}"]`);
-            const label = document.querySelector(`.city-label[data-city="${city}"]`);
-            if (droplet && label) {
-                droplet.style.display = 'block';
-                droplet.classList.add('show');
-                label.style.display = 'block';
-                label.style.opacity = '1';
-
-                setTimeout(() => {
-                    droplet.style.display = 'none';
-                    label.style.opacity = '0';
-                }, 1500);
-            }
-        }
-    </script>
+    <div class="controls-container">
+        <div>
+            <button data-city="zurich" onclick="handleEvent(event)">Show Zurich</button>
+            <input type="checkbox" id="zurich" data-city="zurich" onclick="handleCheckboxEvent(event)">
+            <label for="zurich">Zurich</label>
+        </div>
+        <div>
+            <button data-city="geneva" onclick="handleEvent(event)">Show Geneva</button>
+            <input type="checkbox" id="geneva" data-city="geneva" onclick="handleCheckboxEvent(event)">
+            <label for="geneva">Geneva</label>
+        </div>
+        <div>
+            <button data-city="basel" onclick="handleEvent(event)">Show Basel</button>
+            <input type="checkbox" id="basel" data-city="basel" onclick="handleCheckboxEvent(event)">
+            <label for="basel">Basel</label>
+        </div>
+        <div>
+            <button data-city="bern" onclick="handleEvent(event)">Show Bern</button>
+            <input type="checkbox" id="bern" data-city="bern" onclick="handleCheckboxEvent(event)">
+            <label for="bern">Bern</label>
+        </div>
+        <div>
+            <button data-city="lucerne" onclick="handleEvent(event)">Show Lucerne</button>
+            <input type="checkbox" id="lucerne" data-city="lucerne" onclick="handleCheckboxEvent(event)">
+            <label for="lucerne">Lucerne</label>
+        </div>
+        <div>
+            <button data-city="chur" onclick="handleEvent(event)">Show Chur</button>
+            <input type="checkbox" id="chur" data-city="chur" onclick="handleCheckboxEvent(event)">
+            <label for="chur">Chur</label>
+        </div>
+        <div>
+            <button data-city="locarno" onclick="handleEvent(event)">Show Locarno</button>
+            <input type="checkbox" id="locarno" data-city="locarno" onclick="handleCheckboxEvent(event)">
+            <label for="locarno">Locarno</label>
+        </div>
+        <div>
+            <button data-city="sion" onclick="handleEvent(event)">Show Sion</button>
+            <input type="checkbox" id="sion" data-city="sion" onclick="handleCheckboxEvent(event)">
+            <label for="sion">Sion</label>
+        </div>
+    </div>
 </body>
 </html>
