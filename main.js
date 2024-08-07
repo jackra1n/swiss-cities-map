@@ -126,8 +126,36 @@ function showDroplet(city) {
     }
 }
 
-function showAllCities() {
+function showAllCities(show) {
     for (const city in cities) {
-        showDroplet(city);
+        const droplet = document.querySelector(`.droplet[data-city="${city}"]`);
+        const label = document.querySelector(`.city-label[data-city="${city}"]`);
+        if (show) {
+            droplet.style.display = 'block';
+            droplet.classList.add('loop');
+            label.style.display = 'block';
+            label.style.opacity = '1';
+        } else {
+            droplet.style.display = 'none';
+            droplet.classList.remove('loop');
+            label.style.display = 'none';
+            label.style.opacity = '0';
+        }
     }
+}
+
+function handleShowAll(event) {
+    showAllCities(event.target.checked);
+    disableAllControls(event.target.checked);
+}
+
+function disableAllControls(disable) {
+    const buttons = document.querySelectorAll('button[data-city]');
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]:not(#showAll)');
+    buttons.forEach(button => {
+        button.disabled = disable;
+    });
+    checkboxes.forEach(checkbox => {
+        checkbox.disabled = disable;
+    });
 }
