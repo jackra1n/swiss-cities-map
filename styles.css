@@ -23,6 +23,19 @@ html {
 .droplet::before {
     content: '';
     position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgb(0, 123, 255); /* Updated color */
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: dotFade 2s forwards; /* Added animation for the small dot */
+}
+
+.droplet::after {
+    content: '';
+    position: absolute;
     top: -10px;
     left: -10px;
     width: 20px;
@@ -32,8 +45,12 @@ html {
     animation: drop 2s forwards; /* Play the animation once for 2 seconds */
 }
 
-.droplet.loop::before {
+.droplet.loop::after {
     animation: drop 2s infinite; /* Loop the animation */
+}
+
+.droplet.loop::before {
+    animation: dotFade 2s infinite; /* Loop the animation for the small dot */
 }
 
 .city-label {
@@ -56,8 +73,23 @@ html {
         transform: scale(0.5);
         opacity: 1;
     }
+    50% {
+        opacity: 0.75;
+    }
     100% {
         transform: scale(2);
+        opacity: 0;
+    }
+}
+
+@keyframes dotFade {
+    0% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
         opacity: 0;
     }
 }
