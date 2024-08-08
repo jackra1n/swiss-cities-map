@@ -8,54 +8,68 @@
     <script src="main.js" defer></script>
 </head>
 <body>
-    <div id="map-container">
+
+
+    <div style="text-align: center; margin: 2rem;">
+        <div style="margin-bottom: 1rem;">
+            This project is a simple example of how to use SVG and JavaScript to create an interactive map.
+            I wanted to be able to show an event on a map so created this project to try make the first version.
+            Below you can find buttons that when pressed will simulate a single "event" on the map or checkboxes that will keep showing said city.
+        </div>
+        <div style="font-weight: bold;">If you want, you can check out the project on <a href="https://github.com/jackra1n/swiss-cities-map">GitHub</a></div>
+    </div>
+
+    
+    <div id="map-container" style="max-width: 100%;">
         <img id="map" src="country.svg" alt="Switzerland Map">
     </div>
 
-    <div class="controls-container">
+    <div class="controls-container" style="display: grid; place-items: center;">
         <div>
-            <button data-city="zurich" onclick="handleEvent(event)">Show Zurich</button>
-            <input type="checkbox" id="zurich" data-city="zurich" onclick="handleCheckboxEvent(event)">
-            <label for="zurich">Zurich</label>
-        </div>
-        <div>
-            <button data-city="geneva" onclick="handleEvent(event)">Show Geneva</button>
-            <input type="checkbox" id="geneva" data-city="geneva" onclick="handleCheckboxEvent(event)">
-            <label for="geneva">Geneva</label>
-        </div>
-        <div>
-            <button data-city="basel" onclick="handleEvent(event)">Show Basel</button>
-            <input type="checkbox" id="basel" data-city="basel" onclick="handleCheckboxEvent(event)">
-            <label for="basel">Basel</label>
-        </div>
-        <div>
-            <button data-city="bern" onclick="handleEvent(event)">Show Bern</button>
-            <input type="checkbox" id="bern" data-city="bern" onclick="handleCheckboxEvent(event)">
-            <label for="bern">Bern</label>
-        </div>
-        <div>
-            <button data-city="lucerne" onclick="handleEvent(event)">Show Lucerne</button>
-            <input type="checkbox" id="lucerne" data-city="lucerne" onclick="handleCheckboxEvent(event)">
-            <label for="lucerne">Lucerne</label>
-        </div>
-        <div>
-            <button data-city="chur" onclick="handleEvent(event)">Show Chur</button>
-            <input type="checkbox" id="chur" data-city="chur" onclick="handleCheckboxEvent(event)">
-            <label for="chur">Chur</label>
-        </div>
-        <div>
-            <button data-city="locarno" onclick="handleEvent(event)">Show Locarno</button>
-            <input type="checkbox" id="locarno" data-city="locarno" onclick="handleCheckboxEvent(event)">
-            <label for="locarno">Locarno</label>
-        </div>
-        <div>
-            <button data-city="sion" onclick="handleEvent(event)">Show Sion</button>
-            <input type="checkbox" id="sion" data-city="sion" onclick="handleCheckboxEvent(event)">
-            <label for="sion">Sion</label>
-        </div>
-        <div>
-            <input type="checkbox" id="showAll" onclick="handleShowAll(event)">
-            <label for="showAll">Show All</label>
+            <div>
+                <button data-city="zurich" onclick="handleEvent(event)">Show Zurich</button>
+                <input type="checkbox" id="zurich" data-city="zurich" onclick="handleCheckboxEvent(event)">
+                <label for="zurich">Zurich</label>
+            </div>
+            <div>
+                <button data-city="geneva" onclick="handleEvent(event)">Show Geneva</button>
+                <input type="checkbox" id="geneva" data-city="geneva" onclick="handleCheckboxEvent(event)">
+                <label for="geneva">Geneva</label>
+            </div>
+            <div>
+                <button data-city="basel" onclick="handleEvent(event)">Show Basel</button>
+                <input type="checkbox" id="basel" data-city="basel" onclick="handleCheckboxEvent(event)">
+                <label for="basel">Basel</label>
+            </div>
+            <div>
+                <button data-city="bern" onclick="handleEvent(event)">Show Bern</button>
+                <input type="checkbox" id="bern" data-city="bern" onclick="handleCheckboxEvent(event)">
+                <label for="bern">Bern</label>
+            </div>
+            <div>
+                <button data-city="lucerne" onclick="handleEvent(event)">Show Lucerne</button>
+                <input type="checkbox" id="lucerne" data-city="lucerne" onclick="handleCheckboxEvent(event)">
+                <label for="lucerne">Lucerne</label>
+            </div>
+            <div>
+                <button data-city="chur" onclick="handleEvent(event)">Show Chur</button>
+                <input type="checkbox" id="chur" data-city="chur" onclick="handleCheckboxEvent(event)">
+                <label for="chur">Chur</label>
+            </div>
+            <div>
+                <button data-city="locarno" onclick="handleEvent(event)">Show Locarno</button>
+                <input type="checkbox" id="locarno" data-city="locarno" onclick="handleCheckboxEvent(event)">
+                <label for="locarno">Locarno</label>
+            </div>
+            <div>
+                <button data-city="sion" onclick="handleEvent(event)">Show Sion</button>
+                <input type="checkbox" id="sion" data-city="sion" onclick="handleCheckboxEvent(event)">
+                <label for="sion">Sion</label>
+            </div>
+            <div>
+                <input type="checkbox" id="showAll" onclick="handleShowAll(event)">
+                <label for="showAll">Show All</label>
+            </div>
         </div>
     </div>
 </body>
