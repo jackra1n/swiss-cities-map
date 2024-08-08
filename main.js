@@ -2,10 +2,10 @@ const svgWidth = 800;
 const svgHeight = 513;
 
 const geoBounds = {
-    minLat: 45.82,  // Southernmost point
+    minLat: 45.84, // Southernmost point
     maxLat: 47.8,  // Northernmost point
-    minLng: 5.8,   // Westernmost point
-    maxLng: 10.7  // Easternmost point
+    minLng: 5.73,  // Westernmost point
+    maxLng: 10.69  // Easternmost point
 };
 
 const yCorrectionFactor = 0.9;
@@ -94,26 +94,14 @@ function handleCheckboxEvent(event) {
 }
 
 function showDroplet(city) {
-    const allDroplets = document.querySelectorAll('.droplet');
-    const allLabels = document.querySelectorAll('.city-label');
-    allDroplets.forEach(droplet => {
-        if (!droplet.classList.contains('loop')) {
-            droplet.style.display = 'none';
-            droplet.classList.remove('show');
-        }
-    });
-    allLabels.forEach(label => {
-        if (!label.previousElementSibling.classList.contains('loop')) {
-            label.style.display = 'none';
-            label.classList.remove('show');
-        }
-    });
-
     const droplet = document.querySelector(`.droplet[data-city="${city}"]`);
     const label = document.querySelector(`.city-label[data-city="${city}"]`);
     if (droplet && label) {
-        droplet.style.display = 'block';
+        droplet.classList.remove('show');
+        void droplet.offsetWidth; // Trigger reflow
         droplet.classList.add('show');
+
+        droplet.style.display = 'block';
         label.style.display = 'block';
         label.style.opacity = '1';
 
