@@ -3,8 +3,8 @@
 	export let x: number;
 	export let y: number;
 
-	$: labelStyle = `top: ${y - 10}px; left: ${x + 20}px;`;
-	$: dropletStyle = `top: ${y}px; left: ${x}px;`;
+	$: dropletStyle = `top: 0px; left: 0px; transform: translate(-50%, -50%);`; // Center the droplet
+	$: labelStyle = `top: ${y+40}px; left: ${x}px;`;
 </script>
 
 <div class="marker" style="left: {x}px; top: {y}px;">
@@ -17,6 +17,12 @@
 		position: absolute;
 	}
 
+	.droplet {
+		position: absolute;
+		width: 20px; /* Same as the droplet after size */
+		height: 20px; /* Same as the droplet after size */
+	}
+
 	.droplet::before {
 		content: '';
 		position: absolute;
@@ -26,20 +32,21 @@
 		height: 5px;
 		background: rgb(0, 123, 255);
 		border-radius: 50%;
-		transform: translate(-50%, -50%);
-		animation: dotFade 2s forwards;
+		transform: translate(-50%, -50%); /* Center the dot */
+		animation: dotFade 2s infinite;
 	}
 
 	.droplet::after {
 		content: '';
 		position: absolute;
-		top: -10px;
-		left: -10px;
+		top: 50%;
+		left: 50%;
 		width: 20px;
 		height: 20px;
 		background: rgba(0, 123, 255, 0.6);
 		border-radius: 50%;
-		animation: drop 2s forwards;
+		transform: translate(-50%, -50%); /* Center the droplet */
+		animation: drop 2s infinite;
 	}
 
 	.city-label {
@@ -47,7 +54,6 @@
 		color: white;
 		padding: 2px 5px;
 		border-radius: 3px;
-		/* opacity: 0; */
 		transition: opacity 1s;
 		pointer-events: none;
 		white-space: nowrap;
@@ -55,14 +61,14 @@
 
 	@keyframes drop {
 		0% {
-			transform: scale(0.5);
+			transform: translate(-50%, -50%) scale(0.5);
 			opacity: 1;
 		}
 		50% {
 			opacity: 0.75;
 		}
 		100% {
-			transform: scale(2);
+			transform: translate(-50%, -50%) scale(2);
 			opacity: 0;
 		}
 	}
