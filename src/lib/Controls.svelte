@@ -1,18 +1,17 @@
 <script lang="ts">
-	import { cities } from '$lib/cities';
+	import { CityMap } from '$lib/cities';
 
-	export let onShowAll: (event: Event) => void;  // Callback prop for handling the "Show All" event
+	const cityMap = new CityMap();
+	const cities = cityMap.getAllCities();
 
-	function handleCheckboxChange(event: Event) {
-		onShowAll(event);
-	}
+	function handleCheckboxChange(event: Event) {}
 </script>
 
 <div class="controls-container">
 	{#each Object.keys(cities) as city}
 		<div>
 			<button data-city={city}>Show {city.charAt(0).toUpperCase() + city.slice(1)}</button>
-			<input type="checkbox" id={city} data-city={city} />
+			<input type="checkbox" id={city} data-city={city} on:change={handleCheckboxChange} />
 			<label for={city}>{city.charAt(0).toUpperCase() + city.slice(1)}</label>
 		</div>
 	{/each}
@@ -25,6 +24,9 @@
 <style>
 	.controls-container {
 		display: grid;
-		place-items: center;
+	}
+
+	.controls-container button {
+		width: 120px;
 	}
 </style>

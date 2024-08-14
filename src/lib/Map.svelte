@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { geoToSvg } from '$lib/map';
-	import { cities } from '$lib/cities';
 	import Marker from '$lib/Marker.svelte';
+	import { CityMap } from '$lib/cities';
 
 	let mapContainer: HTMLElement;
 	let markers: { city: string; x: number; y: number }[] = [];
+
+	const cityMap = new CityMap();
 
 	onMount(() => {
 		updateMapDimensions();
@@ -26,11 +28,8 @@
 		const svgWidth = mapContainer.clientWidth;
 		const svgHeight = mapContainer.clientHeight;
 
-		console.log(`Map dimensions: ${svgWidth}x${svgHeight}`);
-
-		markers = Object.keys(cities).map((city) => {
-			const coords = geoToSvg(cities[city].lat, cities[city].lng, svgWidth, svgHeight);
-			console.log(`Coords for ${city}: x=${coords.x}, y=${coords.y}`);
+		markers = cityMap.getCityNames().map((city) => {
+			const coords = geoToSvg(cityMap.getCityCoordinates(city)!.lat, cityMap.getCityCoordinates(city)!.lng, svgWidth, svgHeight);
 			return { city, x: coords.x, y: coords.y };
 		});
 	}
@@ -40,12 +39,11 @@
 	}
 
 	function updateMarkers() {
-		// No need to manually clear markers since we're updating the reactive variable
 		markers = markers;
 	}
 </script>
 
-<div bind:this={mapContainer} id="map-container">
+<div bind:this={mapContainer} id="map-container" style="max-width: 100%;">
 	<img id="map" src="/country.svg" alt="Switzerland Map" />
 	{#each markers as marker}
 		<Marker city={marker.city} x={marker.x} y={marker.y} />
