@@ -26,8 +26,11 @@
 		const svgWidth = mapContainer.clientWidth;
 		const svgHeight = mapContainer.clientHeight;
 
-		markers = Object.keys(cities).map(city => {
+		console.log(`Map dimensions: ${svgWidth}x${svgHeight}`);
+
+		markers = Object.keys(cities).map((city) => {
 			const coords = geoToSvg(cities[city].lat, cities[city].lng, svgWidth, svgHeight);
+			console.log(`Coords for ${city}: x=${coords.x}, y=${coords.y}`);
 			return { city, x: coords.x, y: coords.y };
 		});
 	}
@@ -52,9 +55,12 @@
 <style>
 	#map-container {
 		position: relative;
+		width: 800px;
+		margin: 0 auto;
+	}
+
+	#map {
 		width: 100%;
 		height: auto;
-		max-width: 800px;
-		margin: 0 auto;
 	}
 </style>

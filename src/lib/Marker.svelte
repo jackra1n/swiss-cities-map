@@ -3,13 +3,13 @@
 	export let x: number;
 	export let y: number;
 
-	$: labelPosition = { top: `${y - 10}px`, left: `${x + 20}px` };
-	$: dropletPosition = { top: `${y}px`, left: `${x}px` };
+	$: labelStyle = `top: ${y - 10}px; left: ${x + 20}px;`;
+	$: dropletStyle = `top: ${y}px; left: ${x}px;`;
 </script>
 
-<div class="marker">
-	<div class="droplet" style={dropletPosition}></div>
-	<div class="city-label" style={labelPosition}>{city.charAt(0).toUpperCase() + city.slice(1)}</div>
+<div class="marker" style="left: {x}px; top: {y}px;">
+	<div class="droplet" style={dropletStyle}></div>
+	<div class="city-label" style={labelStyle}>{city.charAt(0).toUpperCase() + city.slice(1)}</div>
 </div>
 
 <style>
@@ -40,6 +40,17 @@
 		background: rgba(0, 123, 255, 0.6);
 		border-radius: 50%;
 		animation: drop 2s forwards;
+	}
+
+	.city-label {
+		background: rgba(0, 0, 0, 0.7);
+		color: white;
+		padding: 2px 5px;
+		border-radius: 3px;
+		/* opacity: 0; */
+		transition: opacity 1s;
+		pointer-events: none;
+		white-space: nowrap;
 	}
 
 	@keyframes drop {
