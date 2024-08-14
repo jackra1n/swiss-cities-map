@@ -2,14 +2,13 @@
 	export let city: string;
 	export let x: number;
 	export let y: number;
-
-	$: dropletStyle = `top: 0px; left: 0px; transform: translate(-50%, -50%);`; // Center the droplet
-	$: labelStyle = `top: ${y+40}px; left: ${x}px;`;
 </script>
 
 <div class="marker" style="left: {x}px; top: {y}px;">
-	<div class="droplet" style={dropletStyle}></div>
-	<div class="city-label" style={labelStyle}>{city.charAt(0).toUpperCase() + city.slice(1)}</div>
+	<div class="droplet" style="top: 0; left: 0; transform: translate(-50%, -50%);"></div>
+	<div class="city-label" style="top: -10px; left: 20px;">
+		{city.charAt(0).toUpperCase() + city.slice(1)}
+	</div>
 </div>
 
 <style>
@@ -19,8 +18,8 @@
 
 	.droplet {
 		position: absolute;
-		width: 20px; /* Same as the droplet after size */
-		height: 20px; /* Same as the droplet after size */
+		width: 20px;
+		height: 20px;
 	}
 
 	.droplet::before {
@@ -32,7 +31,7 @@
 		height: 5px;
 		background: rgb(0, 123, 255);
 		border-radius: 50%;
-		transform: translate(-50%, -50%); /* Center the dot */
+		transform: translate(-50%, -50%);
 		animation: dotFade 2s infinite;
 	}
 
@@ -45,11 +44,12 @@
 		height: 20px;
 		background: rgba(0, 123, 255, 0.6);
 		border-radius: 50%;
-		transform: translate(-50%, -50%); /* Center the droplet */
+		transform: translate(-50%, -50%);
 		animation: drop 2s infinite;
 	}
 
 	.city-label {
+		position: absolute;
 		background: rgba(0, 0, 0, 0.7);
 		color: white;
 		padding: 2px 5px;
