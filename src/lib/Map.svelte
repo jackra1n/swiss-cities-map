@@ -3,6 +3,7 @@
 	import { geoToSvg } from '$lib/map';
 	import Marker from '$lib/Marker.svelte';
 	import { CityMap } from '$lib/cities';
+	import mapSvg from '$lib/assets/country.svg';
 
 	let mapContainer: HTMLElement;
 	let markers: { city: string; x: number; y: number }[] = [];
@@ -44,7 +45,7 @@
 </script>
 
 <div bind:this={mapContainer} id="map-container" style="max-width: 100%;">
-	<img id="map" src="/country.svg" alt="Switzerland Map" />
+	<img id="map" src="{mapSvg}" alt="Switzerland Map" />
 	{#each markers as marker}
 		<Marker city={marker.city} x={marker.x} y={marker.y} />
 	{/each}
