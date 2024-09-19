@@ -2,9 +2,10 @@
 	export let city: string;
 	export let x: number;
 	export let y: number;
+	export let hidden: boolean = true;
 </script>
 
-<div class="marker" style="left: {x}px; top: {y}px;">
+<div class="marker" style="left: {x}px; top: {y}px; { hidden ? 'display: none' : '' }">
 	<div class="droplet" style="top: 0; left: 0; transform: translate(-50%, -50%);"></div>
 	<div class="city-label" style="top: -10px; left: 20px;">
 		{city.charAt(0).toUpperCase() + city.slice(1)}

@@ -11,19 +11,13 @@
 	const cityMap = new CityMap();
 
 	onMount(() => {
+		window.addEventListener('resize', updateMapDimensions);
 		updateMapDimensions();
-		window.addEventListener('resize', updateMap);
-		createMarkers();
 
 		return () => {
-			window.removeEventListener('resize', updateMap);
+			window.removeEventListener('resize', updateMapDimensions);
 		};
 	});
-
-	function updateMap() {
-		updateMapDimensions();
-		updateMarkers();
-	}
 
 	function updateMapDimensions() {
 		const svgWidth = mapContainer.clientWidth;
@@ -33,14 +27,6 @@
 			const coords = geoToSvg(cityMap.getCityCoordinates(city)!.lat, cityMap.getCityCoordinates(city)!.lng, svgWidth, svgHeight);
 			return { city, x: coords.x, y: coords.y };
 		});
-	}
-
-	function createMarkers() {
-		updateMarkers();
-	}
-
-	function updateMarkers() {
-		markers = markers;
 	}
 </script>
 
