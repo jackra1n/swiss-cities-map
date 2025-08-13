@@ -1,17 +1,13 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ],
+  "extends": ["config:recommended"],
   "dependencyDashboard": false,
   "configMigration": true,
   "automerge": false,
   "npm": {
     "enabled": false
   },
-  "labels": [
-    "dependencies"
-  ],
+  "labels": ["dependencies"],
   "commitBodyTable": true,
   "packageRules": [
     {
@@ -20,10 +16,8 @@
     },
     {
       "description": "Group Svelte ecosystem",
-      "matchPackagePatterns": ["^svelte", "^@sveltejs/"],
-      "groupName": "svelte"
+      "groupName": "svelte",
+      "matchPackageNames": ["/^svelte/", "/^@sveltejs//"]
     }
   ]
 }
-
-
