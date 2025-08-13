@@ -1,9 +1,30 @@
 <script lang="ts">
-	let { city, x, y } = $props<{ city: string; x: number; y: number }>();
+	let { city, x, y, show = false, pulseKey = 0 } = $props<{
+		city: string;
+		x: number;
+		y: number;
+		show?: boolean; // continuous pulsing when true (or global showAll)
+		pulseKey?: number; // bump to trigger a one-shot pulse
+	}>();
+
+	let oneShotActive = $state(false);
+
+	$effect(() => {
+		// when pulseKey changes, trigger a one-shot animation
+		// by toggling a boolean that applies a class for a single cycle
+		void pulseKey;
+		if (pulseKey > 0) {
+			oneShotActive = false;
+			// next microtask to reflow class
+			queueMicrotask(() => (oneShotActive = true));
+			// remove after 2s (matches CSS animation duration)
+			setTimeout(() => (oneShotActive = false), 2000);
+		}
+	});
 </script>
 
 <div class="marker" style="left: {x}px; top: {y}px;">
-	<div class="droplet" style="top: 0; left: 0; transform: translate(-50%, -50%);"></div>
+    <div class="droplet {show ? 'pulse' : ''} {oneShotActive ? 'pulse-once' : ''}" style="top: 0; left: 0; transform: translate(-50%, -50%);"></div>
 	<div class="city-label" style="top: -10px; left: 20px;">
 		{city.charAt(0).toUpperCase() + city.slice(1)}
 	</div>
@@ -18,6 +39,25 @@
 		position: absolute;
 		width: 20px;
 		height: 20px;
+	}
+
+	/* default: hidden */
+	.droplet::before,
+	.droplet::after {
+		display: none;
+	}
+
+	/* continuous pulse when .pulse is present */
+	.droplet.pulse::before,
+	.droplet.pulse::after {
+		display: block;
+	}
+
+	/* one-shot pulse when .pulse-once is present (enabled for one cycle) */
+	.droplet.pulse-once::before,
+	.droplet.pulse-once::after {
+		display: block;
+		animation-iteration-count: 1;
 	}
 
 	.droplet::before {

@@ -4,9 +4,13 @@
 	import { CityMap } from '$lib/cities';
 	import mapSvg from '$lib/assets/country.svg';
 
-	let { showAll } = $props<{ showAll: boolean }>();
+	let { showAll, persistentCities = {}, pulseTokenByCity = {} } = $props<{
+		showAll: boolean;
+		persistentCities?: Record<string, boolean>;
+		pulseTokenByCity?: Record<string, number>;
+	}>();
 
-	let mapContainer: HTMLElement;
+	let mapContainer: HTMLElement | null = null;
 	let markers = $state<{ city: string; x: number; y: number }[]>([]);
 
 	const cityMap = new CityMap();
@@ -17,6 +21,7 @@
 	}
 
 	function updateMapDimensions() {
+		if (!mapContainer) return;
 		const svgWidth = mapContainer.clientWidth;
 		const svgHeight = mapContainer.clientHeight;
 
@@ -34,11 +39,11 @@
 		updateMarkers();
 	}
 
-	function updateMarkers() {
-		markers = markers;
-	}
+	function updateMarkers() {}
 
 	$effect(() => {
+		// ensure we track mapContainer so this reruns once it's bound
+		mapContainer;
 		updateMapDimensions();
 		const onResize = () => updateMap();
 		window.addEventListener('resize', onResize);
@@ -52,7 +57,13 @@
 <div bind:this={mapContainer} id="map-container" style="max-width: 100%;">
 	<img id="map" src={mapSvg} alt="Switzerland Map" />
 	{#each markers as marker}
-		<Marker city={marker.city} x={marker.x} y={marker.y} />
+		<Marker
+			city={marker.city}
+			x={marker.x}
+			y={marker.y}
+			show={showAll || !!persistentCities[marker.city]}
+			pulseKey={pulseTokenByCity[marker.city] ?? 0}
+		/>
 	{/each}
 </div>
 

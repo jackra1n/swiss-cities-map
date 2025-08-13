@@ -3,10 +3,21 @@
 	import Controls from '$lib/Controls.svelte';
 
 	let showAll = $state(false);
+	let persistentCities = $state<Record<string, boolean>>({});
+	let pulseTokenByCity = $state<Record<string, number>>({});
 
 	function handleShowAll(event: Event) {
 		const target = event?.target as HTMLInputElement | null;
 		showAll = !!target?.checked;
+	}
+
+	function handlePulseCity(city: string) {
+		// increment a token to trigger a one-shot pulse for this city
+		pulseTokenByCity = { ...pulseTokenByCity, [city]: (pulseTokenByCity[city] ?? 0) + 1 };
+	}
+
+	function handleToggleCity(city: string, checked: boolean) {
+		persistentCities = { ...persistentCities, [city]: checked };
 	}
 </script>
 
@@ -20,8 +31,8 @@
 		<div style="font-weight: bold;">If you want, you can check out the project on <a href="https://github.com/jackra1n/swiss-cities-map">GitHub</a></div>
 	</div>
 
-	<SwissMap {showAll} />
-	<Controls onShowAll={handleShowAll} />
+	<SwissMap {showAll} {persistentCities} {pulseTokenByCity} />
+	<Controls onShowAll={handleShowAll} onPulseCity={handlePulseCity} onToggleCity={handleToggleCity} />
 </main>
 
 <style>
