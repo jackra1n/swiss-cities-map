@@ -1,10 +1,11 @@
 <script lang="ts">
-	let { city, x, y, show = false, pulseKey = 0 } = $props<{
+	let { city, x, y, show = false, pulseKey = 0, labelMode = 'always' } = $props<{
 		city: string;
 		x: number;
 		y: number;
 		show?: boolean; // continuous pulsing when true (or global showAll)
 		pulseKey?: number; // bump to trigger a one-shot pulse
+		labelMode?: 'always' | 'pulse' | 'never';
 	}>();
 
 	let oneShotActive = $state(false);
@@ -21,13 +22,18 @@
 			setTimeout(() => (oneShotActive = false), 2000);
 		}
 	});
+
+	let isPulsing = $derived(show || oneShotActive);
+	let showLabel = $derived(labelMode === 'always' ? true : labelMode === 'never' ? false : isPulsing);
 </script>
 
 <div class="marker" style="left: {x}px; top: {y}px;">
     <div class="droplet {show ? 'pulse' : ''} {oneShotActive ? 'pulse-once' : ''}" style="top: 0; left: 0; transform: translate(-50%, -50%);"></div>
-	<div class="city-label" style="top: -10px; left: 20px;">
-		{city.charAt(0).toUpperCase() + city.slice(1)}
-	</div>
+	{#if showLabel}
+		<div class="city-label" style="top: -10px; left: 20px;">
+			{city.charAt(0).toUpperCase() + city.slice(1)}
+		</div>
+	{/if}
 </div>
 
 <style>

@@ -63,6 +63,7 @@
 			y={marker.y}
 			show={showAll || !!persistentCities[marker.city]}
 			pulseKey={pulseTokenByCity[marker.city] ?? 0}
+			labelMode="pulse"
 		/>
 	{/each}
 </div>
