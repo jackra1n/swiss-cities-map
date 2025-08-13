@@ -4,10 +4,11 @@
 	import { CityMap } from '$lib/cities';
 	import mapSvg from '$lib/assets/country.svg';
 
-	let { showAll, persistentCities = {}, pulseTokenByCity = {} } = $props<{
+	let { showAll, persistentCities = {}, pulseTokenByCity = {}, labelMode = 'always' } = $props<{
 		showAll: boolean;
 		persistentCities?: Record<string, boolean>;
 		pulseTokenByCity?: Record<string, number>;
+		labelMode?: 'always' | 'pulse' | 'never';
 	}>();
 
 	let mapContainer: HTMLElement | null = null;
@@ -63,7 +64,7 @@
 			y={marker.y}
 			show={showAll || !!persistentCities[marker.city]}
 			pulseKey={pulseTokenByCity[marker.city] ?? 0}
-			labelMode="pulse"
+			labelMode={labelMode}
 		/>
 	{/each}
 </div>

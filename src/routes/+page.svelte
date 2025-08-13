@@ -5,6 +5,7 @@
 	let showAll = $state(false);
 	let persistentCities = $state<Record<string, boolean>>({});
 	let pulseTokenByCity = $state<Record<string, number>>({});
+	let labelMode = $state<'always' | 'pulse' | 'never'>('pulse');
 
 	function handleShowAll(event: Event) {
 		const target = event?.target as HTMLInputElement | null;
@@ -31,7 +32,16 @@
 		<div style="font-weight: bold;">If you want, you can check out the project on <a href="https://github.com/jackra1n/swiss-cities-map">GitHub</a></div>
 	</div>
 
-	<SwissMap {showAll} {persistentCities} {pulseTokenByCity} />
+	<div style="margin: 1rem 0; display: flex; gap: 0.75rem; align-items: center;">
+		<label for="labelMode">Label mode:</label>
+		<select id="labelMode" bind:value={labelMode}>
+			<option value="always">Always</option>
+			<option value="pulse">On pulse</option>
+			<option value="never">Never</option>
+		</select>
+	</div>
+
+	<SwissMap {showAll} {persistentCities} {pulseTokenByCity} {labelMode} />
 	<Controls onShowAll={handleShowAll} onPulseCity={handlePulseCity} onToggleCity={handleToggleCity} />
 </main>
 
