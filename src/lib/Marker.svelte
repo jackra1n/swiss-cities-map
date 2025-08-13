@@ -29,11 +29,9 @@
 
 <div class="marker" style="left: {x}px; top: {y}px;">
     <div class="droplet {show ? 'pulse' : ''} {oneShotActive ? 'pulse-once' : ''}" style="top: 0; left: 0; transform: translate(-50%, -50%);"></div>
-	{#if showLabel}
-		<div class="city-label" style="top: -10px; left: 20px;">
-			{city.charAt(0).toUpperCase() + city.slice(1)}
-		</div>
-	{/if}
+	<div class="city-label {showLabel ? 'visible' : ''}" style="top: -10px; left: 20px;" aria-hidden={!showLabel}>
+		{city.charAt(0).toUpperCase() + city.slice(1)}
+	</div>
 </div>
 
 <style>
@@ -98,9 +96,16 @@
 		color: white;
 		padding: 2px 5px;
 		border-radius: 3px;
-		transition: opacity 1s;
+		opacity: 0;
+		transform: translateY(-2px);
+		transition: opacity 250ms ease, transform 250ms ease;
 		pointer-events: none;
 		white-space: nowrap;
+	}
+
+	.city-label.visible {
+		opacity: 1;
+		transform: translateY(0);
 	}
 
 	@keyframes drop {
