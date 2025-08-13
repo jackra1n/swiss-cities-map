@@ -1,7 +1,5 @@
 <script lang="ts">
-	export let city: string;
-	export let x: number;
-	export let y: number;
+	let { city, x, y } = $props<{ city: string; x: number; y: number }>();
 </script>
 
 <div class="marker" style="left: {x}px; top: {y}px;">

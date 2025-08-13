@@ -4,19 +4,21 @@
 	const cityMap = new CityMap();
 	const cities = cityMap.getAllCities();
 
-	function handleCheckboxChange(event: Event) {}
+	let { onShowAll } = $props<{ onShowAll: (event: Event) => void }>();
+
+	function handleCheckboxChange(_event: Event) {}
 </script>
 
 <div class="controls-container">
 	{#each Object.keys(cities) as city}
 		<div>
 			<button data-city={city}>Show {city.charAt(0).toUpperCase() + city.slice(1)}</button>
-			<input type="checkbox" id={city} data-city={city} on:change={handleCheckboxChange} />
+			<input type="checkbox" id={city} data-city={city} onchange={handleCheckboxChange} />
 			<label for={city}>{city.charAt(0).toUpperCase() + city.slice(1)}</label>
 		</div>
 	{/each}
 	<div>
-		<input type="checkbox" id="showAll" on:change={handleCheckboxChange} />
+		<input type="checkbox" id="showAll" onchange={onShowAll} />
 		<label for="showAll">Show All</label>
 	</div>
 </div>

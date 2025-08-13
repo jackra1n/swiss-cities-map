@@ -1,11 +1,12 @@
 <script lang="ts">
-	import Map from '$lib/Map.svelte';
+	import SwissMap from '$lib/Map.svelte';
 	import Controls from '$lib/Controls.svelte';
 
-	let showAll = false;
+	let showAll = $state(false);
 
 	function handleShowAll(event: Event) {
-		showAll = (event.target as HTMLInputElement).checked;
+		const target = event?.target as HTMLInputElement | null;
+		showAll = !!target?.checked;
 	}
 </script>
 
@@ -19,7 +20,7 @@
 		<div style="font-weight: bold;">If you want, you can check out the project on <a href="https://github.com/jackra1n/swiss-cities-map">GitHub</a></div>
 	</div>
 
-	<Map {showAll} />
+	<SwissMap {showAll} />
 	<Controls onShowAll={handleShowAll} />
 </main>
 

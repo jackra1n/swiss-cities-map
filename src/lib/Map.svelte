@@ -1,24 +1,15 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { geoToSvg } from '$lib/map';
 	import Marker from '$lib/Marker.svelte';
 	import { CityMap } from '$lib/cities';
 	import mapSvg from '$lib/assets/country.svg';
 
+	let { showAll } = $props<{ showAll: boolean }>();
+
 	let mapContainer: HTMLElement;
-	let markers: { city: string; x: number; y: number }[] = [];
+	let markers = $state<{ city: string; x: number; y: number }[]>([]);
 
 	const cityMap = new CityMap();
-
-	onMount(() => {
-		updateMapDimensions();
-		window.addEventListener('resize', updateMap);
-		createMarkers();
-
-		return () => {
-			window.removeEventListener('resize', updateMap);
-		};
-	});
 
 	function updateMap() {
 		updateMapDimensions();
@@ -30,7 +21,11 @@
 		const svgHeight = mapContainer.clientHeight;
 
 		markers = cityMap.getCityNames().map((city) => {
-			const coords = geoToSvg(cityMap.getCityCoordinates(city)!.lat, cityMap.getCityCoordinates(city)!.lng, svgWidth, svgHeight);
+			const cityCoords = cityMap.getCityCoordinates(city);
+			if (!cityCoords) {
+				return { city, x: 0, y: 0 };
+			}
+			const coords = geoToSvg(cityCoords.lat, cityCoords.lng, svgWidth, svgHeight);
 			return { city, x: coords.x, y: coords.y };
 		});
 	}
@@ -42,10 +37,20 @@
 	function updateMarkers() {
 		markers = markers;
 	}
+
+	$effect(() => {
+		updateMapDimensions();
+		const onResize = () => updateMap();
+		window.addEventListener('resize', onResize);
+		createMarkers();
+		return () => {
+			window.removeEventListener('resize', onResize);
+		};
+	});
 </script>
 
 <div bind:this={mapContainer} id="map-container" style="max-width: 100%;">
-	<img id="map" src="{mapSvg}" alt="Switzerland Map" />
+	<img id="map" src={mapSvg} alt="Switzerland Map" />
 	{#each markers as marker}
 		<Marker city={marker.city} x={marker.x} y={marker.y} />
 	{/each}
