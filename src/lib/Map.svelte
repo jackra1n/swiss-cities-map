@@ -12,6 +12,8 @@
 	}>();
 
 	let mapContainer: HTMLElement | null = null;
+	let mapImage: HTMLImageElement | null = null;
+	let resizeObserver: ResizeObserver | null = null;
 	let markers = $state<{ city: string; x: number; y: number }[]>([]);
 
 	const cityMap = new CityMap();
@@ -22,9 +24,9 @@
 	}
 
 	function updateMapDimensions() {
-		if (!mapContainer) return;
-		const svgWidth = mapContainer.clientWidth;
-		const svgHeight = mapContainer.clientHeight;
+		const svgWidth = mapImage?.clientWidth || mapContainer?.clientWidth || 0;
+		const svgHeight = mapImage?.clientHeight || mapContainer?.clientHeight || 0;
+		if (svgWidth === 0 || svgHeight === 0) return;
 
 		markers = cityMap.getCityNames().map((city) => {
 			const cityCoords = cityMap.getCityCoordinates(city);
@@ -45,18 +47,42 @@
 	$effect(() => {
 		// ensure we track mapContainer so this reruns once it's bound
 		mapContainer;
+		mapImage;
+
 		updateMapDimensions();
+		requestAnimationFrame(() => updateMap());
+
 		const onResize = () => updateMap();
 		window.addEventListener('resize', onResize);
+
+		resizeObserver = new ResizeObserver(() => updateMap());
+		if (mapContainer) resizeObserver.observe(mapContainer);
+		if (mapImage) resizeObserver.observe(mapImage);
+
+		if (mapImage) {
+			if (mapImage.complete) {
+				queueMicrotask(() => updateMap());
+			} else {
+				const onLoad = () => updateMap();
+				mapImage.addEventListener('load', onLoad, { once: true });
+			}
+		}
+
 		createMarkers();
 		return () => {
 			window.removeEventListener('resize', onResize);
+			if (resizeObserver) {
+				if (mapContainer) resizeObserver.unobserve(mapContainer);
+				if (mapImage) resizeObserver.unobserve(mapImage);
+				resizeObserver.disconnect();
+				resizeObserver = null;
+			}
 		};
 	});
 </script>
 
 <div bind:this={mapContainer} id="map-container" style="max-width: 100%;">
-	<img id="map" src={mapSvg} alt="Switzerland Map" />
+	<img bind:this={mapImage} id="map" src={mapSvg} alt="Switzerland Map" />
 	{#each markers as marker}
 		<Marker
 			city={marker.city}
